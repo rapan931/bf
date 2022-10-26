@@ -8,6 +8,8 @@ local dc = 1
 local src = ""
 ---@type table
 local mem = {}
+---@type string
+local buf = ""
 
 local function jump_loop_start()
   local depth = 0
@@ -27,7 +29,6 @@ local function jump_loop_end()
   local depth = 0
   pc = pc + 1
   while depth > 0 or src:sub(pc, pc) ~= "]" do
-
     if src:sub(pc, pc) == "[" then
       depth = depth + 1
     elseif src:sub(pc, pc) == "]" then
@@ -41,14 +42,6 @@ end
 local function step()
   local op = src:sub(pc, pc)
 
-    -- os.execute("sleep " .. "1")
-    -- print("-----")
-    -- print(op)
-    -- print(pc)
-    -- print(dc)
-    -- print(mem[1])
-    -- print(mem[2])
-
   if op == ">" then
     dc = dc + 1
   elseif op == "<" then
@@ -58,7 +51,7 @@ local function step()
   elseif op == "-" then
     mem[dc] = mem[dc] - 1
   elseif op == "." then
-    io.stdout:write(string.char(mem[dc]))
+    buf = buf .. string.char(mem[dc])
   elseif op == "[" and mem[dc] == 0 then
     jump_loop_end()
   elseif op == "]" and mem[dc] ~= 0 then
@@ -67,6 +60,8 @@ local function step()
 
   pc = pc + 1
 end
+
+local function flush() print(buf) end
 
 M.setup = function(s)
   pc = 1
@@ -81,7 +76,8 @@ M.exec = function()
   while pc ~= #src + 1 do
     step()
   end
-  io.stdout:write("\n")
+
+  flush()
 end
 
 return M
