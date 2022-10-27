@@ -7,7 +7,6 @@ describe("Test Bf", function()
     local bf = require("bf")
     bf.setup([==[+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.------------.<++++++++.--------.+++.------.--------.>+.]==])
     bf.exec()
-
     assert.stub(_G.print).was.called_with("Hello, world!")
   end)
 end)

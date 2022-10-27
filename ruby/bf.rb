@@ -1,17 +1,20 @@
 class Bf
+  def exec(src)
+    set(src)
+    step while @pc != @src.length
+
+    # 最後に改行出力
+    puts
+  end
+
+  private
+
   def set(src)
     @pc = 0 # pointer
     @dc = 0 # value
     @src = src # code
     @mem = Array.new(30000, 0) # memory
   end
-
-  def exec
-    step while @pc != @src.length
-    puts
-  end
-
-  private
 
   def step
     op = @src[@pc]

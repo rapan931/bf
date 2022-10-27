@@ -7,11 +7,10 @@ describe "Bf" do
     @bf = Bf.new
   end
 
-  describe "outputs 'Hello World!" do
+  describe "outputs 'Hello World!'" do
     it "must respond positively" do
       assert_output("Hello, world!\n") do
-        @bf.set("+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.------------.<++++++++.--------.+++.------.--------.>+.")
-        @bf.exec
+        @bf.exec("+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.------------.<++++++++.--------.+++.------.--------.>+.")
       end
     end
   end
