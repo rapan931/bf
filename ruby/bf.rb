@@ -2,9 +2,6 @@ class Bf
   def exec(src)
     set(src)
     step while @pc != @src.length
-
-    # 最後に改行出力
-    puts
   end
 
   private
@@ -18,20 +15,25 @@ class Bf
 
   def step
     op = @src[@pc]
+
     case op
     when ">" then @dc += 1
     when "<" then @dc -= 1
     when "+" then @mem[@dc] += 1
     when "-" then @mem[@dc] -= 1
     when "." then print @mem[@dc].chr
-    when "[" then jump_loop_end if @mem[@dc].zero?
-    when "]" then jump_loop_start if @mem[@dc].nonzero?
+
+    when "[" then jump_loop_end
+    when "]" then jump_loop_start
+
     end
 
     @pc += 1
   end
 
   def jump_loop_end
+    return if @mem[@dc].nonzero?
+
     depth = 0
     @pc += 1
     while depth.positive? || @src[@pc] != "]"
@@ -47,6 +49,8 @@ class Bf
   end
 
   def jump_loop_start
+    return if @mem[@dc].zero?
+
     depth = 0
     @pc -= 1
     while depth.positive? || @src[@pc] != "["
@@ -58,8 +62,6 @@ class Bf
       @pc -= 1
     end
   end
-
 end
 # bf = Bf.new
-# bf.set(ARGV[0])
-# bf.exec
+# bf.exec(ARGV[0])
